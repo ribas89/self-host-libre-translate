@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Self Host Libre Translate</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header class="header">
+    <img src="icons/icon48.png" width="38" height="38" alt="">
+    <div class="header-title"><strong>Self Host Libre Translate</strong><span>Self-hosted LibreTranslate</span></div>
+    <button id="page-toggle" class="page-toggle" type="button" role="switch" aria-checked="false"
+            aria-label="Enable translation in this tab" title="Enable translation in this tab" disabled>
+      <span class="toggle-track"><span class="toggle-knob"></span></span><span class="toggle-label">OFF</span>
+    </button>
+  </header>
+  <main>
+    <section id="privacy-banner" class="section privacy-banner" hidden>
+      <strong>Privacy choice required</strong>
+      <div class="subtext">Webpage and selected text is sent to the translation server you choose. Review and accept before translation can start.</div>
+      <button id="privacy-review" class="outline" type="button">Review privacy choices</button>
+    </section>
+    <section class="section">
+      <label for="server">Translation server URL</label>
+      <input id="server" type="url" placeholder="https://your-server.example" spellcheck="false" autocomplete="off">
+      <div class="subtext">You choose the server. No URL is preconfigured.</div>
+      <button id="test" class="outline" type="button">Test connection &amp; save</button>
+      <div id="connection" class="message" role="status" aria-live="polite"></div>
+    </section>
+    <section class="section">
+      <div class="languages">
+        <div><label for="source">Translate from</label><select id="source"></select></div>
+        <div><label for="target">Translate to</label><select id="target"></select></div>
+      </div>
+      <div class="subtext">Changes are saved automatically. If translation is enabled, changing the languages starts a fresh translation.</div>
+    </section>
+    <section class="section" aria-label="Selected text translation">
+      <h2 class="selection-heading">LibreTranslate Selection</h2>
+      <div class="languages">
+        <div><label for="selection-source">Selection from</label><select id="selection-source" disabled></select></div>
+        <div><label for="selection-target">Selection to</label><select id="selection-target" disabled></select></div>
+      </div>
+      <div class="subtext">These choices belong to this tab. Defaults: detect selected text, and detect the original page language. On multilingual sites, choose a target such as Russian explicitly. Right-click selected text and choose LibreTranslate Selection.</div>
+    </section>
+    <section class="section controls">
+      <div class="subtext" id="page-scope">Use the header switch to enable translation in this tab. It stays ON as you navigate; other tabs stay independent.</div>
+      <div class="secondary-buttons">
+        <button id="restore" type="button">Show original</button>
+        <button id="print" type="button" disabled>Print</button>
+      </div>
+    </section>
+    <section class="section" aria-label="Caching">
+      <div class="cache-heading">
+        <div><h2 class="selection-heading">Caching</h2>
+          <div class="subtext">Save original and translated text on this device.</div></div>
+        <button id="cache-toggle" type="button" class="cache-toggle" role="switch" aria-checked="false"
+          aria-label="Enable saved translations" title="Enable saved translations" disabled>
+          <span class="toggle-track"><span class="toggle-knob"></span></span>
+          <span class="cache-toggle-label">OFF</span>
+        </button>
+      </div>
+      <div class="subtext">ON by default after consent. Private browsing is never cached, even when this switch is ON.</div>
+      <div class="subtext" id="cache-status">Caching starts after privacy consent. Private browsing is not cached.</div>
+      <button id="clear-cache" class="outline" type="button">Clear saved translations</button>
+    </section>
+    <section class="status-section" aria-live="polite">
+      <div class="status-heading"><strong id="status">Ready</strong><span id="percent">0 remaining</span></div>
+      <div class="progress"><div id="bar"></div></div>
+      <div id="details" class="subtext">Configure the server, open a page, then turn its header switch ON.</div>
+      <div id="error" class="error" role="alert" hidden></div>
+    </section>
+  </main>
+  <footer>Page text is sent to the translation server you choose. Webpages remain at their original addresses.</footer>
+  <script src="popup.js"></script>
+</body>
+</html>
