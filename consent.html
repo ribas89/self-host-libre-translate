@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy choices | Self Host Libre Translate</title>
+<link rel="stylesheet" href="consent.css">
+</head>
+<body>
+<main class="panel">
+  <div class="brand"><img src="icons/icon48.png" width="44" height="44" alt=""><div>
+    <h1>Self Host Libre Translate</h1><p>Privacy and server choices</p></div></div>
+  <p>This Firefox extension translates text using a LibreTranslate server <strong>you choose</strong>. No server address is bundled or selected automatically.</p>
+  <h2>What is transmitted?</h2>
+  <p>When you enable page translation, the extension sends readable webpage text to your chosen server. The selection command sends text you select. Automatic language detection may send page-text samples. Translation can continue as you navigate in an enabled tab.</p>
+  <h2>Your server, your choice</h2>
+  <p>You are responsible for choosing, administering and trusting your translation server. HTTP and HTTPS addresses are supported. HTTP traffic may be readable or modified by others on the network. The extension does not operate or audit your chosen server, and server operators may have their own data-handling practices.</p>
+  <h2>Local caching</h2>
+  <label class="choice"><input id="save-cache" type="checkbox" checked><span><strong>Save translations on this device</strong><small>ON by default when you accept. The saved cache contains original and translated text, and page addresses. You can turn it OFF or clear it from the extension popup. Private browsing text is never cached.</small></span></label>
+  <h2>Experimental software</h2>
+  <p>This project was vibecoded and may contain bugs. It is provided as-is under the MIT License, without warranty. You are responsible for selecting a server and understanding how it handles your text. You can report bugs through the official repository's Issues page; fixes and support are not guaranteed.</p>
+  <p class="small">Declining disables translation. You can revisit this page from the extension popup. The page ON/OFF switch and caching controls remain available after acceptance.</p>
+  <div class="actions"><button id="decline" class="secondary">Decline</button><button id="accept" class="primary">Accept and continue</button></div>
+  <p id="status" role="status" aria-live="polite"></p>
+</main>
+<script src="consent.js"></script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+:root{font:13px/1.42 system-ui,-apple-system,"Segoe UI",sans-serif;color:#172737;}
+*{box-sizing:border-box}
+body{margin:0;width:100%;min-width:250px;max-width:410px;background:#fbfcff;overflow-x:hidden;}
+.header{display:flex;gap:11px;align-items:center;padding:17px 18px;background:#122a39;color:#fff;}
+.header strong{display:block;font-size:16px;letter-spacing:.1px}
+.header-title{flex:1;min-width:0}
+.header-title span{display:block;color:#c0d9e2;font-size:11px;margin-top:1px}
+main{padding:12px 16px}
+.section{padding:10px 0 13px;border-bottom:1px solid #e6ebf0}
+label{display:block;color:#283f4c;font-weight:650;margin:0 0 6px}
+input,select{font:inherit;width:100%;height:37px;padding:7px 10px;border-radius:7px;border:1px solid #c6d0db;background:white;color:#1d3543}
+input:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid #198a9d;outline-offset:1px}
+input::placeholder{color:#94a2ac}
+.subtext{font-size:11px;color:#637584;margin-top:6px}
+button{font:inherit;font-weight:650;cursor:pointer;border:1px solid #bfcdd8;border-radius:7px;padding:10px 12px;min-height:42px;background:#fff;color:#183548}
+button:disabled{opacity:.48;cursor:not-allowed}
+button:hover:not(:disabled){filter:brightness(.96)}
+
+button.outline{margin-top:10px;width:100%}
+.languages{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.controls{padding-top:12px}
+.secondary-buttons{display:flex;gap:9px;margin-top:9px}
+.secondary-buttons button{flex:1}
+.status-section{padding:14px 0 6px}
+.status-heading{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.status-heading strong{font-size:13px}
+.status-heading span{font-variant-numeric:tabular-nums;color:#12869d;font-weight:750}
+.progress{height:8px;overflow:hidden;border-radius:999px;background:#e4ebf0;margin-top:9px}
+.progress>div{height:100%;width:0;background:#16899b}
+.message{font-size:12px;color:#176b48;min-height:0;margin-top:6px}
+.message:not(:empty){padding:7px 9px;border-radius:5px;background:#eaf7f1}
+.message.bad{color:#a12e2e;background:#fff0ed}
+.error{margin-top:9px;padding:9px;border-radius:6px;color:#a52f27;background:#fff0ed;overflow-wrap:anywhere}
+footer{padding:10px 16px 14px;border-top:1px solid #e7edf2;font-size:11px;color:#667985}
+
+.page-toggle{display:flex;flex-direction:column;gap:3px;align-items:center;justify-content:center;flex:none;
+  border:1px solid rgba(183,218,229,.42);border-radius:9px;background:rgba(255,255,255,.08);
+  padding:6px 7px;min-height:45px;min-width:63px;color:#eefaff;cursor:pointer}
+.page-toggle:disabled{opacity:.6}
+.toggle-track{position:relative;display:block;width:36px;height:19px;border-radius:99px;background:#637786}
+.toggle-knob{position:absolute;top:2px;left:2px;width:15px;height:15px;border-radius:50%;background:#fff;
+  box-shadow:0 1px 3px #0004}
+.page-toggle[aria-checked="true"] .toggle-track{background:#21bf9c}
+.page-toggle[aria-checked="true"] .toggle-knob{transform:translateX(17px)}
+.page-toggle .toggle-label{font-size:10px;font-weight:750;letter-spacing:.8px;color:#f4faff}
+.page-toggle[aria-checked="true"]{border-color:#38caa6;background:rgba(15,182,145,.17)}
+@media(max-width:340px){.header{padding:12px}.header strong{font-size:14px} main{padding:10px 12px}.languages{grid-template-columns:1fr;gap:9px}.secondary-buttons{flex-wrap:wrap}.status-heading{flex-wrap:wrap}}
+@media(pointer:coarse){input,select,button{min-height:44px;font-size:14px}}
+
+.selection-heading{font-size:14px;line-height:1.3;margin:0 0 12px;font-weight:700;color:#122f40}
+
+.privacy-banner{border:1px solid #accdd8;border-radius:9px;padding:12px;margin-bottom:8px;background:#eef8fc}
+.privacy-banner strong{font-size:13px;color:#194d5a}
+.privacy-banner[hidden]{display:none}
+/* Optional persistent translation caching. */
+.cache-heading{display:flex;gap:12px;align-items:center;justify-content:space-between}
+.cache-heading>div{min-width:0;flex:1}
+.cache-heading .selection-heading{margin-bottom:2px}
+.cache-toggle{display:flex;align-items:center;gap:5px;justify-content:center;flex:none;min-height:36px;min-width:72px;padding:6px 8px;border:1px solid #bfcdd8;background:#fff}
+.cache-toggle .toggle-track{background:#8b9aa6}
+.cache-toggle[aria-checked="true"] .toggle-track{background:#139c84}
+.cache-toggle[aria-checked="true"] .toggle-knob{transform:translateX(17px)}
+.cache-toggle-label{min-width:22px;font-size:11px}
