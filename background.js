@@ -352,7 +352,7 @@ function pumpRequests() {
       .finally(() => { requestsRunning--; pumpRequests(); });
   }
 }
-async function requestJSON(url, payload) {
+async function requestJSON(url, payload, apiKeyOverride) {
   await requirePrivacyConsent();
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 120000);
@@ -364,7 +364,12 @@ async function requestJSON(url, payload) {
       headers: { Accept: "application/json" }, signal: controller.signal };
     if (payload) {
       opts.headers["Content-Type"] = "application/json";
-      opts.body = JSON.stringify(payload);
+      const apiKey = apiKeyOverride === undefined
+        ? (await browser.storage.local.get({ apiKey: "" })).apiKey
+        : apiKeyOverride;
+      // LibreTranslate expects an api_key JSON property for /translate and
+      // /detect. Do not include it for servers that need no key.
+      opts.body = JSON.stringify(apiKey ? { ...payload, api_key: apiKey } : payload);
     }
     const response = await fetch(url, opts);
     const body = await response.text();
@@ -767,6 +772,28 @@ async function getContextTab() {
   if (page && !tabLocations.has(page.id)) tabLocations.set(page.id, normalizedPageUrl(page.url));
   return { tabId: page ? page.id : null };
 }
+async function savePopupSettings(settings) {
+  if (!settings || typeof settings !== "object") throw new Error("Invalid settings.");
+  const apiKey = String(settings.apiKey || "").trim();
+  const previous = await browser.storage.local.get({ apiKey: "" });
+  const keyChanged = apiKey !== previous.apiKey;
+  if (keyChanged) await clearPageCache();
+  await browser.storage.local.set({
+    serverUrl: String(settings.serverUrl || "").trim(),
+    apiKey,
+    source: String(settings.source || "auto"),
+    target: String(settings.target || "auto")
+  });
+  // Stop any in-flight work using an old key and restart enabled tabs.
+  if (keyChanged) {
+    for (const tabId of [...enabledTabs]) {
+      await restoreTab(tabId);
+      await ensurePageStart(tabId);
+    }
+  }
+  return { saved: true };
+}
+
 async function handleMessage(msg, sender) {
   if (!msg || typeof msg !== "object") return;
   switch (msg.type) {
@@ -775,6 +802,7 @@ async function handleMessage(msg, sender) {
     case "ACCEPT_PRIVACY": return setPrivacyConsent(true, msg.cacheEnabled);
     case "DECLINE_PRIVACY": return setPrivacyConsent(false, false);
     case "GET_CONTEXT_TAB": return getContextTab();
+    case "SAVE_SETTINGS": return savePopupSettings(msg.settings);
     case "GET_STATUS": await rememberPageUrl(msg.tabId); return getSummary(msg.tabId);
     case "CACHE_STATS": await cacheReady; return pageCacheStats();
     case "SET_CACHE_ENABLED": await requirePrivacyConsent(); return setCacheEnabled(msg.enabled);
@@ -789,6 +817,14 @@ async function handleMessage(msg, sender) {
       const serverUrl = normalizeServer(msg.serverUrl);
       const languages = await requestJSON(`${serverUrl}/languages`, null);
       if (!Array.isArray(languages)) throw new Error("/languages did not return a language list.");
+      // /languages is public in LibreTranslate. When the user explicitly tests
+      // a server with a key, also check a protected endpoint to validate it.
+      if (msg.verifyKey && String(msg.apiKey || "").trim()) {
+        const probe = await requestJSON(`${serverUrl}/detect`,
+          { q: "This is an English sentence for checking the connection." },
+          String(msg.apiKey).trim());
+        if (!Array.isArray(probe)) throw new Error("/detect returned an unexpected response.");
+      }
       const supported = filterSelectionLanguages(languages);
       await updateSelectionLanguageList(serverUrl, supported);
       return { serverUrl, languages: supported };

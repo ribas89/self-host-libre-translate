@@ -61,3 +61,5 @@ footer{padding:10px 16px 14px;border-top:1px solid #e7edf2;font-size:11px;color:
 .cache-toggle[aria-checked="true"] .toggle-track{background:#139c84}
 .cache-toggle[aria-checked="true"] .toggle-knob{transform:translateX(17px)}
 .cache-toggle-label{min-width:22px;font-size:11px}
+
+.api-key-label{margin-top:12px}

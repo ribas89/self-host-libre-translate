@@ -39,12 +39,18 @@ function message(text, bad = false) {
   el("connection").classList.toggle("bad", bad);
 }
 function settingsFromForm() {
-  return { serverUrl: el("server").value.trim(), source: el("source").value, target: el("target").value };
+  return {
+    serverUrl: el("server").value.trim(),
+    apiKey: el("api-key").value.trim(),
+    source: el("source").value, target: el("target").value
+  };
 }
 async function saveSettings() {
   const settings = settingsFromForm();
-  await browser.storage.local.set(settings);
-  return settings;
+  // Keep credentials out of the tab's translation state and invalidate cached
+  // translations when changing keys for the same server.
+  await browser.runtime.sendMessage({ type: "SAVE_SETTINGS", settings });
+  return { serverUrl: settings.serverUrl, source: settings.source, target: settings.target };
 }
 function renderStatus(s) {
   if (!s) return;
@@ -132,7 +138,9 @@ async function checkServer() {
   el("test").disabled = true;
   message("Checking the LibreTranslate API...");
   try {
-    const result = await browser.runtime.sendMessage({ type: "CHECK_SERVER", serverUrl });
+    const result = await browser.runtime.sendMessage({
+      type: "CHECK_SERVER", serverUrl, apiKey: el("api-key").value.trim(), verifyKey: true
+    });
     el("server").value = result.serverUrl;
     const previousSource = el("source").value;
     const previousTarget = el("target").value;
@@ -232,8 +240,9 @@ async function initialize() {
   // before the popup reads saved settings.
   const context = await browser.runtime.sendMessage({ type: "GET_CONTEXT_TAB" });
   activeTabId = context?.tabId ?? null;
-  const settings = await browser.storage.local.get({ serverUrl: "", source: "auto", target: "auto" });
+  const settings = await browser.storage.local.get({ serverUrl: "", apiKey: "", source: "auto", target: "auto" });
   el("server").value = settings.serverUrl;
+  el("api-key").value = settings.apiKey || "";
   fillSelect(el("source"), FALLBACK_LANGUAGES, settings.source, true);
   fillSelect(el("target"), FALLBACK_LANGUAGES, settings.target, true);
   if (activeTabId == null) {

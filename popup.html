@@ -25,6 +25,9 @@
       <label for="server">Translation server URL</label>
       <input id="server" type="url" placeholder="https://your-server.example" spellcheck="false" autocomplete="off">
       <div class="subtext">You choose the server. No URL is preconfigured.</div>
+      <label class="api-key-label" for="api-key">API key (optional)</label>
+      <input id="api-key" type="password" placeholder="Leave blank if not required" spellcheck="false" autocomplete="off">
+      <div class="subtext">Saved in Firefox; sent only to your server when translating or detecting languages.</div>
       <button id="test" class="outline" type="button">Test connection &amp; save</button>
       <div id="connection" class="message" role="status" aria-live="polite"></div>
     </section>

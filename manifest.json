@@ -2,12 +2,12 @@
   "manifest_version": 3,
   "name": "Self Host Libre Translate",
   "short_name": "Self Host LT",
-  "version": "1.5.20",
+  "version": "1.6.1",
   "description": "Auto translate with Self Host Libre Translate!",
   "browser_specific_settings": {
     "gecko": {
       "id": "page-translator@ribs.local",
-      "strict_min_version": "140.0",
+      "strict_min_version": "128.0",
       "data_collection_permissions": {
         "required": [
           "websiteContent"

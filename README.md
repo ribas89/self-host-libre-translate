@@ -11,16 +11,16 @@ Thank you for your support ❤️!
 
 A Firefox extension for translating webpages and selected text using a LibreTranslate server you configure yourself. No server is preconfigured. HTTP and HTTPS are supported.
 
-Translation can remain enabled while navigating within a tab. Selection translation, automatic language detection, and optional local caching are supported. Caching is enabled by default after user consent, can be disabled or cleared, and never persists private-browsing translations.
+Translation can remain enabled while navigating within a tab. Selection translation, automatic language detection, an optional API key for servers that require one, and optional local caching are supported. Caching is enabled by default after user consent, can be disabled or cleared, and never persists private-browsing translations.
 
-Page text and selections are sent only to the configured server. Users are responsible for choosing and trusting their server. The extension is independently developed, vibecoded, experimental, and supplied as-is. Expect bugs. Report problems using Issues in the official project repository; maintenance and responses are not guaranteed.
+Page text and selections are sent only to the configured server. If set, the API key is stored in Firefox and sent to that server in translation and language-detection requests; HTTP is unencrypted. Users are responsible for choosing and trusting their server. The extension is independently developed, vibecoded, experimental, and supplied as-is. Expect bugs. Report problems using Issues in the official project repository; maintenance and responses are not guaranteed.
 
 ## Package as XPI
 
 On Linux with `zip` installed, run this in the repository root:
 
 ```sh
-zip -r self-host-libre-translate-1.5.20-unsigned.xpi \
+zip -r self-host-libre-translate-1.6.1-unsigned.xpi \
   manifest.json background.js code_prose.js content.js \
   popup.html popup.css popup.js \
   consent.html consent.css consent.js \
